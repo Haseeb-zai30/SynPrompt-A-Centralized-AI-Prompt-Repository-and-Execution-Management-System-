@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block title %}Execution Results | PromptHub{% endblock %}
+
+{% block extra_css %}
+<style>
+    .result-card {
+        border: none;
+        border-radius: 16px;
+        background: #ffffff;
+        overflow: hidden;
+    }
+    
+    .badge-model {
+        background-color: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(4px);
+        font-weight: 500;
+        font-size: 0.85rem;
+    }
+
+    .code-block {
+        font-family: 'Fira Code', 'Courier New', Courier, monospace;
+        font-size: 0.95rem;
+        white-space: pre-wrap;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-10">
+
+        <div class="d-flex align-items-center justify-content-between mb-4">
+            <div>
+                <h2 class="fw-bold mb-0">Project Execution Results</h2>
+                <p class="text-muted mb-0">Batch performance execution breakdown across active models.</p>
+            </div>
+            <a href="/projects" class="btn btn-outline-secondary rounded-pill px-4">
+                <i class="fa-solid fa-arrow-left me-2"></i>Back to Projects
+            </a>
+        </div>
+
+        <div class="alert alert-success border-0 shadow-sm rounded-4 p-3 d-flex align-items-center mb-4">
+            <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
+                <i class="fa-solid fa-circle-check fs-5"></i>
+            </div>
+            <div>
+                <h6 class="alert-heading fw-bold mb-0">Pipeline Executed Successfully</h6>
+                <small class="text-success-emphasis">{{ results|length }} runtime execution pipeline task(s) processed.</small>
+            </div>
+        </div>
+
+        {% for item in results %}
+        <div class="card result-card shadow-sm mb-4">
+            
+            <div class="card-header bg-dark text-white py-3 px-4 d-flex align-items-center justify-content-between">
+                <span class="fw-semibold">
+                    <i class="fa-solid fa-terminal me-2 text-muted"></i>Prompt #{{ item.prompt_id }}
+                </span>
+                <span class="badge badge-model px-3 py-2 rounded-pill">
+                    <i class="fa-solid fa-robot me-1 text-info"></i>{{ item.model }}
+                </span>
+            </div>
+
+            <div class="card-body p-4">
+                <div class="mb-4">
+                    <label class="form-label text-muted fw-bold small text-uppercase tracking-wider">Input Prompt</label>
+                    <div class="border rounded-3 p-3 bg-light code-block text-dark">
+                        {{ item.prompt }}
+                    </div>
+                </div>
+
+                <div>
+                    <label class="form-label text-primary fw-bold small text-uppercase tracking-wider">
+                        <i class="fa-solid fa-wand-magic-sparkles me-1"></i>AI Generated Response
+                    </label>
+                    <div class="border border-primary-subtle rounded-3 p-3 bg-white code-block shadow-inner">
+                        {{ item.response }}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        {% endfor %}
+
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+
+{% block title %}Search Results{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2 class="fw-bold">
+            <i class="fa-solid fa-magnifying-glass text-warning"></i>
+            Search Results
+        </h2>
+
+        {% if keyword %}
+            <p class="text-muted mb-0">
+                Showing results for
+                <strong>"{{ keyword }}"</strong>
+            </p>
+        {% endif %}
+    </div>
+
+    <a href="/dashboard" class="btn btn-outline-secondary">
+        <i class="fa-solid fa-arrow-left"></i>
+        Dashboard
+    </a>
+</div>
+
+{% if prompts %}
+
+<div class="row">
+
+{% for prompt in prompts %}
+
+<div class="col-lg-6 mb-4">
+
+<div class="card shadow-sm border-0 h-100">
+
+    <div class="card-body">
+
+        <span class="badge bg-warning text-dark mb-2">
+
+            {{ prompt[3] }}
+
+        </span>
+
+        <h4 class="fw-bold">
+
+            {{ prompt[1] }}
+
+        </h4>
+
+        <p class="text-muted">
+
+            {{ prompt[2][:200] }}...
+
+        </p>
+
+    </div>
+
+    <div class="card-footer bg-white border-0">
+        <a href="/prompt/{{ prompt[0] }}"
+        class="btn btn-primary btn-sm">
+            <i class="fa-solid fa-eye"></i>
+            View
+        </a>
+
+        <a href="/edit_prompt/{{ prompt[0] }}"
+           class="btn btn-warning btn-sm">
+
+            <i class="fa-solid fa-pen"></i>
+
+            Edit
+
+        </a>
+
+        <a href="/delete_prompt/{{ prompt[0] }}"
+           class="btn btn-danger btn-sm">
+
+            <i class="fa-solid fa-trash"></i>
+
+            Delete
+
+        </a>
+
+        <a href="/add_favorite/{{ prompt[0] }}"
+           class="btn btn-info btn-sm">
+
+            <i class="fa-solid fa-star"></i>
+
+            Favorite
+
+        </a>
+
+    </div>
+
+</div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+{% else %}
+
+<div class="text-center mt-5">
+
+    <i class="fa-solid fa-face-frown fa-5x text-secondary mb-4"></i>
+
+    <h3>No prompts found</h3>
+
+    <p class="text-muted">
+
+        Try another keyword or category.
+
+    </p>
+
+    <a href="/prompts"
+       class="btn btn-warning">
+
+       Browse All Prompts
+
+    </a>
+
+</div>
+
+{% endif %}
+
+{% endblock %}

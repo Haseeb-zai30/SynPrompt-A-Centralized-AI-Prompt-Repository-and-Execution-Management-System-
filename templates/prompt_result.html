@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Response</title>
+</head>
+<body>
+
+<h2>{{ prompt[1] }}</h2>
+
+<hr>
+
+<h3>Model Used</h3>
+<p>{{ model }}</p>
+
+<h3>AI Response</h3>
+
+<pre>{{ response }}</pre>
+
+<br>
+
+<a href="{{ url_for('prompt.prompts') }}">Back to Prompts</a>
+
+</body>
+</html>

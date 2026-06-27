@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+
+{% block title %}Execution Details{% endblock %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+
+<div class="col-lg-10">
+
+<div class="card shadow border-0">
+
+<div class="card-header bg-dark text-white">
+
+<h3 class="mb-0">
+
+🤖 AI Execution Result
+
+</h3>
+
+</div>
+
+<div class="card-body">
+
+<h3 class="fw-bold">
+
+{{ execution[0] }}
+
+</h3>
+
+<hr>
+
+<div class="row mb-4">
+
+<div class="col-md-6">
+
+<p>
+
+<strong>Model</strong>
+
+<br>
+
+<span class="badge bg-warning text-dark fs-6">
+
+{{ execution[1] }}
+
+</span>
+
+</p>
+
+</div>
+
+<div class="col-md-6">
+
+<p>
+
+<strong>Executed On</strong>
+
+<br>
+
+{{ execution[2] }}
+
+</p>
+
+</div>
+
+</div>
+
+<h5 class="fw-bold">
+
+AI Response
+
+</h5>
+
+<div
+class="border rounded p-4 bg-light"
+id="responseBox">
+
+<pre style="white-space:pre-wrap;font-family:inherit;margin:0;">
+
+{{ execution[3] }}
+
+</pre>
+
+</div>
+
+<div class="mt-4">
+
+<button
+class="btn btn-warning"
+onclick="copyResponse()">
+
+<i class="fa-solid fa-copy me-1"></i>
+
+Copy Response
+
+</button>
+
+<a
+href="/executions"
+class="btn btn-secondary">
+
+<i class="fa-solid fa-arrow-left me-1"></i>
+
+Back
+
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+
+<script>
+
+function copyResponse(){
+
+const text=document.getElementById("responseBox").innerText;
+
+navigator.clipboard.writeText(text);
+
+alert("Response copied!");
+
+}
+
+</script>
+
+{% endblock %}

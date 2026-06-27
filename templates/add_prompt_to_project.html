@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Add Prompt To Project</h2>
+
+<form method="POST">
+
+    <label>Select Prompt</label>
+
+    <select
+        name="prompt_id"
+        class="form-control">
+
+        {% for prompt in prompts %}
+
+        <option value="{{ prompt[0] }}">
+            {{ prompt[1] }}
+        </option>
+
+        {% endfor %}
+
+    </select>
+
+    <br>
+
+    <button
+        class="btn btn-success">
+
+        Add Prompt
+
+    </button>
+
+</form>
+
+{% endblock %}

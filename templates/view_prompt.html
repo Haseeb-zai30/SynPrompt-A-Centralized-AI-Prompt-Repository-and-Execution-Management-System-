@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}View Prompt{% endblock %}
+
+{% block content %}
+
+<div class="card shadow border-0">
+
+    <div class="card-header bg-dark text-white">
+
+        <h3 class="mb-0">
+            {{ prompt[1] }}
+        </h3>
+
+    </div>
+
+    <div class="card-body">
+
+        <p>
+            <strong>Category:</strong>
+
+            <span class="badge bg-warning text-dark">
+                {{ prompt[3] }}
+            </span>
+        </p>
+
+        <p>
+            <strong>Created:</strong>
+            {{ prompt[4] }}
+        </p>
+
+        <hr>
+
+        <h5>Prompt</h5>
+
+        <div class="border rounded bg-light p-4">
+            <pre style="white-space: pre-wrap;">{{ prompt[2] }}</pre>
+        </div>
+
+        <hr>
+
+        <a href="/edit_prompt/{{ prompt[0] }}"
+           class="btn btn-warning">
+            Edit
+        </a>
+
+        <a href="/prompts"
+           class="btn btn-secondary">
+            Back
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

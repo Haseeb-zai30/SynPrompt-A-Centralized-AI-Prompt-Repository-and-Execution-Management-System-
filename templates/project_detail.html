@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ project_title or 'Project Sandbox' }} | PromptHub{% endblock %}
+
+{% block extra_css %}
+<style>
+    .project-card {
+        border: none;
+        border-radius: 16px;
+        background: #ffffff;
+    }
+    .action-bar {
+        background-color: #f8fafc;
+        border-radius: 12px;
+    }
+    .table-container {
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1px solid #e2e8f0;
+    }
+    .table th {
+        background-color: #f1f5f9;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        letter-spacing: 0.05em;
+        color: #64748b;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-10">
+        
+        <div class="mb-4">
+            <a href="/projects" class="btn btn-sm btn-outline-secondary rounded-pill px-3 mb-2">
+                <i class="fa-solid fa-arrow-left me-1"></i> Back to Projects
+            </a>
+            <h2 class="fw-bold text-dark mb-1">{{ project.title if project.title is defined else project[3] }}</h2>
+            <p class="text-muted mb-0">{{ project.description if project.description is defined else project[4] }}</p>
+        </div>
+
+        <hr class="my-4">
+
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card project-card shadow-sm p-4 sticky-md-top" style="top: 90px;">
+                    <h5 class="fw-bold mb-3"><i class="fa-solid fa-sliders text-primary me-2"></i>Execution Control</h5>
+                    
+                    <form action="/run_project/{{ project.project_id if project.project_id is defined else project[0] }}" method="POST">
+                        <div class="mb-3">
+                            <label for="modelSelect" class="form-label fw-semibold small text-muted">Select AI Model Pipeline</label>
+                            <select id="modelSelect" name="model" class="form-select form-select-md rounded-3 shadow-none">
+                                <option value="openai/gpt-4o-mini">GPT-4o Mini (OpenAI)</option>
+                                <option value="google/gemini-2.5-flash">Gemini 1.5 Flash (Google)</option>
+                                <option value="anthropic/claude-3-haiku">Claude 3 Haiku (Anthropic)</option>
+                                
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-warning btn-md w-100 rounded-3 fw-semibold py-2 shadow-sm">
+                            <i class="fa-solid fa-play me-2"></i>Run Full Project
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                <div class="card project-card shadow-sm p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <h5 class="fw-bold mb-0"><i class="fa-solid fa-terminal text-success me-2"></i>Prompt Pipeline Sequence</h5>
+                        <a href="/add_prompt_to_project/{{ project.project_id if project.project_id is defined else project[0] }}" class="btn btn-sm btn-success rounded-pill px-3">
+                            <i class="fa-solid fa-plus me-1"></i>Add Prompt
+                        </a>
+                    </div>
+
+                    <div class="table-container shadow-inner">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead>
+                                <tr>
+                                    <th class="ps-4 py-3">Prompt Execution Flow Order / Title</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% if prompts and prompts|length > 0 %}
+                                    {% for prompt in prompts %}
+                                    <tr>
+                                        <td class="ps-4 py-3 fw-medium text-dark">
+                                            <i class="fa-solid fa-code me-2 text-muted small"></i>
+                                            {{ prompt.title if prompt.title is defined else prompt[1] }}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                {% else %}
+                                    <tr>
+                                        <td class="text-center py-5 text-muted">
+                                            <i class="fa-solid fa-folder-open display-6 d-block mb-3 opacity-50"></i>
+                                            No prompts added to this project sandbox timeline yet.
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

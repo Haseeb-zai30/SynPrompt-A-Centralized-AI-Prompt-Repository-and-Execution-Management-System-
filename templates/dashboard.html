@@ -1,1 +1,215 @@
+{% extends 'base.html' %}
 
+{% block title %}Dashboard | SynPrompt{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Sleek Hero Section with fine-tuned dark background & branding gradients */
+    .hero {
+        background: linear-gradient(135deg, #0f172a, #1e293b 70%, var(--orange));
+        color: white;
+        border-radius: 20px;
+        padding: 48px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .hero::after {
+        content: '';
+        position: absolute;
+        right: -60px;
+        top: -60px;
+        width: 260px;
+        height: 260px;
+        background: rgba(255, 255, 255, .04);
+        border-radius: 50%;
+        pointer-events: none;
+    }
+
+    /* Minimalist, professional metric surfaces */
+    .stat-card {
+        border: none;
+        border-radius: 16px;
+        background: #ffffff;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.04) !important;
+    }
+
+    .icon-box {
+        width: 52px;
+        height: 52px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        font-weight: 600;
+    }
+
+    /* Polished workspace interactive card styles matched with image_bc92fe.png mechanics */
+    .action-card {
+        border: 1px solid #f1f5f9;
+        border-radius: 16px;
+        background: #ffffff;
+        transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+
+    .action-card:hover {
+        transform: translateY(-4px);
+        border-color: #e2e8f0;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06) !important;
+    }
+
+    .model-badge {
+        font-size: .8rem;
+        padding: .5rem .9rem;
+        font-weight: 500;
+        border-radius: 8px;
+        letter-spacing: 0.01em;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<!-- Welcoming Brand Hero Header -->
+<div class="hero shadow-sm mb-4">
+    <h1 class="display-6 fw-bold mb-2">Welcome back, {{ name }}</h1>
+    <p class="lead mb-4 opacity-75 fs-6" style="max-width: 760px;">
+        Accelerate your engineering loops. Build custom environments, test prompt sets synchronously against foundational layers, and manage persistent database history tracking effortlessly.
+    </p>
+    <div class="d-flex gap-2">
+        <span class="badge bg-warning text-dark px-3 py-2 rounded-pill fw-semibold">
+            <i class="fa-solid fa-code me-1"></i> {{ prompt_count }} Prompts
+        </span>
+        <span class="badge bg-white text-dark px-3 py-2 rounded-pill fw-semibold shadow-sm">
+            <i class="fa-solid fa-bolt text-warning me-1"></i> {{ execution_count }} Total Runs
+        </span>
+    </div>
+</div>
+
+<!-- Performance Matrix Grid Rows -->
+<div class="row g-4 mb-4">
+    <div class="col-6 col-lg-3">
+        <div class="card stat-card shadow-sm h-100">
+            <div class="card-body p-4">
+                <div class="icon-box bg-primary-subtle text-primary mb-3">
+                    <i class="fa-solid fa-terminal"></i>
+                </div>
+                <h6 class="text-muted small text-uppercase tracking-wider fw-semibold mb-1">Saved Prompts</h6>
+                <h2 class="fw-bold text-dark mb-0">{{ prompt_count }}</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-6 col-lg-3">
+        <div class="card stat-card shadow-sm h-100">
+            <div class="card-body p-4">
+                <div class="icon-box bg-success-subtle text-success mb-3">
+                    <i class="fa-solid fa-folder"></i>
+                </div>
+                <h6 class="text-muted small text-uppercase tracking-wider fw-semibold mb-1">Projects</h6>
+                <h2 class="fw-bold text-dark mb-0">{{ project_count }}</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-6 col-lg-3">
+        <div class="card stat-card shadow-sm h-100">
+            <div class="card-body p-4">
+                <div class="icon-box bg-warning-subtle text-warning mb-3">
+                    <i class="fa-solid fa-star"></i>
+                </div>
+                <h6 class="text-muted small text-uppercase tracking-wider fw-semibold mb-1">Favorites</h6>
+                <h2 class="fw-bold text-dark mb-0">{{ favorite_count }}</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-6 col-lg-3">
+        <div class="card stat-card shadow-sm h-100">
+            <div class="card-body p-4">
+                <div class="icon-box bg-dark-subtle text-dark mb-3">
+                    <i class="fa-solid fa-robot"></i>
+                </div>
+                <h6 class="text-muted small text-uppercase tracking-wider fw-semibold mb-1">AI Executions</h6>
+                <h2 class="fw-bold text-dark mb-0">{{ execution_count }}</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Available LLM Pipelines -->
+<div class="card border-0 shadow-sm mb-4">
+    <div class="card-body p-4">
+        <h6 class="fw-bold text-dark mb-3">
+            <i class="fa-solid fa-brain text-warning me-2"></i>Active Multi-Model Routing Hub
+        </h6>
+        <div class="d-flex flex-wrap gap-2">
+            <span class="badge bg-dark text-white model-badge"><i class="fa-solid fa-circle text-info me-1 small"></i> GPT-4o Mini</span>
+            <span class="badge bg-warning text-dark model-badge"><i class="fa-solid fa-circle text-danger me-1 small"></i> Gemini Flash</span>
+            <span class="badge bg-secondary text-white model-badge"><i class="fa-solid fa-circle text-warning me-1 small"></i> Claude Sonnet</span>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Action Workspace Header -->
+<h5 class="fw-bold text-dark mb-3">
+    <i class="fa-solid fa-bolt text-warning me-2"></i>Quick Action Workspace
+</h5>
+
+<!-- Core App Route Triggers Matching image_bc92fe.png Formats -->
+<div class="row g-3 mb-4">
+    <div class="col-md-4">
+        <a href="/prompts" class="text-decoration-none">
+            <div class="card action-card shadow-sm h-100">
+                <div class="card-body p-4">
+                    <i class="fa-solid fa-terminal text-primary fs-4 mb-3 d-block"></i>
+                    <h6 class="text-dark fw-bold mb-1">Manage Prompts</h6>
+                    <p class="text-muted small mb-0">Create, edit and optimize structured system rows.</p>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-md-4">
+        <a href="/projects" class="text-decoration-none">
+            <div class="card action-card shadow-sm h-100">
+                <div class="card-body p-4">
+                    <i class="fa-solid fa-folder text-success fs-4 mb-3 d-block"></i>
+                    <h6 class="text-dark fw-bold mb-1">Manage Projects</h6>
+                    <p class="text-muted small mb-0">Track modular testing suites and sandbox setups.</p>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-md-4">
+        <a href="/executions" class="text-decoration-none">
+            <div class="card action-card shadow-sm h-100">
+                <div class="card-body p-4">
+                    <i class="fa-solid fa-clock-rotate-left text-dark fs-4 mb-3 d-block"></i>
+                    <h6 class="text-dark fw-bold mb-1">Execution History</h6>
+                    <p class="text-muted small mb-0">Review model execution validations and response texts.</p>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>
+
+<!-- Platform Summary Content Area -->
+<div class="card border-0 shadow-sm mb-4">
+    <div class="card-body p-4">
+        <h5 class="fw-bold text-dark mb-3">Platform Infrastructure Overview</h5>
+        <p class="text-muted mb-0 small" style="line-height: 1.7; font-size: 0.92rem;">
+            <strong>SynPrompt</strong> is an AI-powered Prompt & Project Repository that enables users to create, organize, and manage prompts in one centralized workspace. Users can group prompts into projects, execute them using multiple AI models—including GPT, Gemini, and Claude—through OpenRouter, save favorite prompts, and maintain a complete execution history for future reference. Designed for developers, students, and AI enthusiasts, SynPrompt simplifies prompt engineering by making AI experimentation organized, searchable, and reusable.
+        </p>
+    </div>
+</div>
+
+{% endblock %}
